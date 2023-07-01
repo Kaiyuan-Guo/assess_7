@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hist.mapper.ArticleMapper">
+    <resultMap id="articleUserMap" type="Article">
+        <result column="username" property="author"/>
+    </resultMap>
+    <insert id="add">
+        insert into web_article
+        values (#{id},#{title},null,#{content},null,#{createDate},null)
+    </insert>
+
+    <update id="update">
+        update web_article set title=#{title},content=#{content} where id=#{id}
+    </update>
+    <delete id="deleteById">
+        delete from web_article where id=#{id}
+    </delete>
+
+    <select id="login" resultType="User">
+        select * from web_user where username=#{username} and password=#{password};
+    </select>
+
+    <select id="queryAllArticle" resultMap="articleUserMap">
+        select distinct web_article.*,web_user.username from web_article,web_user
+    </select>
+    <select id="queryById" resultType="Article">
+        select * from web_article where id=#{id}
+    </select>
+    <select id="fuzzySearch" resultMap="articleUserMap">
+        select  a.*,u.username
+        from web_article a left join user_article ua on a.id = ua.article_id left join web_user u on ua.author_id=u.id
+        <where>
+            <if test="id!=null">
+                and u.id =#{id}
+            </if>
+            <if test="title!=null and title!=''">
+                and cast(a.id as char) like concat('%',#{title},'%') or title like concat('%',#{title},'%')
+            </if>
+        </where>
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
