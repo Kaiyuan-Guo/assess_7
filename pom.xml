@@ -118,7 +118,7 @@
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
         </dependency>
-      <!--进行git测试-->
+      <!--进行git测试，第二次测试-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
